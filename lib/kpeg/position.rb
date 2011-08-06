@@ -2,10 +2,10 @@ module KPeg
   module Position
     # STANDALONE START
     def current_column(target=pos)
-      if c = string.rindex("\n", target-1)
-        return target - c - 1
+      if target > 0 && c = string.rindex("\n", target-1)
+        return [1, target - 1 - c].max
       end
-
+      
       target + 1
     end
 
@@ -16,10 +16,10 @@ module KPeg
       string.each_line do |line|
         cur_line += 1
         cur_offset += line.size
-        return cur_line if cur_offset >= target
+        return cur_line if cur_offset > target
       end
 
-      -1
+      cur_line + 1
     end
 
     def lines
