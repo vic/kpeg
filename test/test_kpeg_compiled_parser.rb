@@ -21,10 +21,22 @@ class TestKPegCompiledParser < Test::Unit::TestCase
 
   def test_current_column
     r = TestParser.new "hello\nsir"
+    assert_equal 1, r.current_column(0)   
     assert_equal 2, r.current_column(1)
     assert_equal 6, r.current_column(5)
-    assert_equal 1, r.current_column(7)
-    assert_equal 4, r.current_column(10)
+    assert_equal 1, r.current_column(6)
+    assert_equal 2, r.current_column(7)    
+    assert_equal nil, r.current_column(10)
+  end
+  
+  def test_current_line
+    r = TestParser.new "hello\nsir"
+    assert_equal 1, r.current_line(0)    
+    assert_equal 1, r.current_line(1)
+    assert_equal 1, r.current_line(5)
+    assert_equal 2, r.current_line(6)
+    assert_equal 2, r.current_line(7)    
+    assert_equal nil, r.current_line(10)
   end
 
   def test_failed_rule

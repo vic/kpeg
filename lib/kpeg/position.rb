@@ -2,14 +2,17 @@ module KPeg
   module Position
     # STANDALONE START
     def current_column(target=pos)
-      if target > 0 && c = string.rindex("\n", target-1)
-        return [1, target - 1 - c].max
+      return unless string[target - 1]
+      o = string[target,1] == "\n" && 1 || 0
+      if target - 1 > 0 && c = string.rindex("\n", target - 1)
+        target - c - o
+      else
+        target + 1
       end
-      
-      target + 1
     end
 
     def current_line(target=pos)
+      return unless string[target - 1]
       cur_offset = 0
       cur_line = 0
 
